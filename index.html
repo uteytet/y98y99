@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>我的网站</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 比例 */
+            height: 0;
+            overflow: hidden;
+            max-width: 100%;
+            margin: 0 auto;
+            background: #000;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .button {
+            padding: 10px 20px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px;
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .image-item img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .image-item img:hover {
+            transform: scale(1.05);
+        }
+
+        section {
+            margin-bottom: 40px;
+        }
+
+        h2 {
+            color: #333;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .video-list {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .video-link {
+            text-decoration: none;
+            color: #333;
+            padding: 5px 10px;
+            border: 1px solid #333;
+            border-radius: 4px;
+        }
+
+        .video-link.active {
+            background-color: #333;
+            color: #fff;
+        }
+
+        .image-container {
+            width: 100%;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .responsive-image {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <!-- 添加图片容器和图片 -->
+        <div class="image-container">
+            <img src="https://1330189987.vod-qcloud.com/4b4f10d3vodcq1330189987/3a626e5c1397757899746251355/tgECiekZsksA.jpg" 
+                 alt="展示图片"
+                 class="responsive-image">
+        </div>
+        
+        <!-- 视频展示区 -->
+        <section class="video-section">
+            <h2>视频展示</h2>
+            <div class="video-container">
+                <video id="videoPlayer" controls>
+                    <source src="https://1330189987.vod-qcloud.com/2238fe7bvodtranscq1330189987/c79053c41397757899741861586/v.f101300.mp4" type="video/mp4">
+                    您的浏览器不支持 HTML5 视频播放。
+                </video>
+            </div>
+            <div class="video-list">
+                <a href="#" class="video-link active" data-video="49CA40D8A662D8B4E6A18CA3712D8CBC5.mp4">第1集</a>
+                <a href="#" class="video-link" data-video="video2.mp4">第2集</a>
+                <a href="#" class="video-link" data-video="video3.mp4">第3集</a>
+                <a href="#" class="video-link" data-video="video4.mp4">第4集</a>
+            </div>
+        </section>
+
+        <!-- 游戏区域 -->
+        <section class="game-section">
+            <h2>游戏专区</h2>
+            <div class="game-container">
+                <h3>游戏演示</h3>
+                <button class="button" onclick="startGame()">开始游戏</button>
+            </div>
+        </section>
+
+        <!-- 图片展示区 -->
+        <section class="gallery-section">
+            <h2>动漫展示</h2>
+            <div class="image-grid">
+                <div class="image-item">
+                    <img src="https://via.placeholder.com/300x200/87CEEB/ffffff?text=动漫1" 
+                         alt="动漫图片1" 
+                         loading="lazy">
+                </div>
+                <div class="image-item">
+                    <img src="https://via.placeholder.com/300x200/90EE90/ffffff?text=动漫2" 
+                         alt="动漫图片2" 
+                         loading="lazy">
+                </div>
+                <div class="image-item">
+                    <img src="https://via.placeholder.com/300x200/FFB6C1/ffffff?text=动漫3" 
+                         alt="动漫图片3" 
+                         loading="lazy">
+                </div>
+                <div class="image-item">
+                    <img src="https://via.placeholder.com/300x200/DDA0DD/ffffff?text=动漫4" 
+                         alt="动漫图片4" 
+                         loading="lazy">
+                </div>
+                <div class="image-item">
+                    <img src="https://via.placeholder.com/300x200/F0E68C/ffffff?text=动漫5" 
+                         alt="动漫图片5" 
+                         loading="lazy">
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const videoContainer = document.querySelector('.video-section');
+            const videoPlayer = document.getElementById('videoPlayer');
+
+            // 使用事件委托来处理视频链接的点击
+            videoContainer.addEventListener('click', function(e) {
+                if (e.target.classList.contains('video-link')) {
+                    e.preventDefault();
+                    
+                    const allLinks = videoContainer.querySelectorAll('.video-link');
+                    allLinks.forEach(link => link.classList.remove('active'));
+                    
+                    e.target.classList.add('active');
+                    
+                    const videoFile = e.target.getAttribute('data-video');
+                    if (videoPlayer && videoFile) {
+                        videoPlayer.src = `videos/${videoFile}`;
+                        videoPlayer.play();
+                    }
+                }
+            });
+
+            // 视频错误处理
+            videoPlayer.addEventListener('error', function() {
+                console.error('视频加载失败');
+                alert('视频加载失败，请检查文件是否存在');
+            });
+
+            // 简化的图片错误处理
+            const images = document.querySelectorAll('img');
+            const handleImageError = function(e) {
+                const img = e.target;
+                if (!img.hasAttribute('data-error-handled')) {
+                    img.src = 'placeholder.jpg';
+                    img.alt = '图片加载失败';
+                    img.setAttribute('data-error-handled', 'true');
+                }
+            };
+
+            images.forEach(img => {
+                img.addEventListener('error', handleImageError, { once: true });
+            });
+        });
+
+        function startGame() {
+            alert('游戏开始！');
+        }
+    </script>
+</body>
+</html> 49CA40D8A662D8B4E6A18CA3712D8CBC5.mp4
